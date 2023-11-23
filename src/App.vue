@@ -27,12 +27,14 @@ import CardBoard from './components/CardBoard.vue';
 import ModalWrap from './components/ModalWrap.vue';
 import { sortArr } from './utils/utils';
 import { card } from './utils/cards';
+import type {cardInterface} from './utils/cards'
+
 const timer: Ref<number> = ref(60),
       modalOpen: Ref<boolean> = ref(false),
       modalMsg: Ref<string> = ref(''),
       userWin: Ref<boolean> = ref(false),
       stage: Ref<number> = ref(1),
-      sortedCards: Ref<object[]> = ref([]),
+      sortedCards: Ref<cardInterface[]> = ref([]),
       componentKey: Ref<number> = ref(0),
       selected: Ref<object[]> = ref([]),
       isEnd: Ref<boolean> = ref(false)

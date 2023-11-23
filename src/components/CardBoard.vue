@@ -7,6 +7,7 @@
         class="card-board-list"
         :class="card.val"
         >
+        <!-- @transitionend=checkAnswer($event,idx) -->
           <button
             type="button" 
             :class="{open: card.open}"
@@ -14,7 +15,7 @@
             :open="card.open"
             @click=handleClick($event,idx)
             @transitionstart= trStart()
-            @transitionend=checkAnswer($event,idx)
+            @transitionend=checkAnswer()
           >
             <span class="hidden">{{ card.val }}</span>
           </button>
@@ -32,7 +33,9 @@ const count: Ref<number> = ref(0),
       selected = toRef(props.selected)
 
 function handleClick(e: MouseEvent, idx: number) {
-  const cl = e.target.classList
+  const t = e.target as HTMLButtonElement
+  // const cl = e.target.classList
+  const cl = t.classList
   if(!cl.contains('open')) {
     if(flag.value) {
       if(selected.value.length > 0) {
@@ -56,7 +59,8 @@ function trStart() {
   }
 }
 
-function checkAnswer(e: TransitionEvent, idx: number) {
+// e: TransitionEvent, idx: number
+function checkAnswer() {
   let filtered;
   if(count.value > 1) {
     if(selected.value[0].item !== selected.value[1].item) {
@@ -69,7 +73,7 @@ function checkAnswer(e: TransitionEvent, idx: number) {
       flag.value = true
     }, 300)
   }
-  filtered = sortedCards.value.filter(f => !f.open)
+  filtered = sortedCards.value.filter((f: { open: boolean; }) => !f.open)
   if(filtered.length === 0 && props.isEnd) {
     emit('winGame')
   }
